@@ -1,0 +1,7 @@
+json.name @contact.name
+json.street_address @contact.street_address
+json.city @contact.city
+json.state @contact.state
+json.zip @contact.zip
+json.email @contact.email
+json.phone @contact.phone
