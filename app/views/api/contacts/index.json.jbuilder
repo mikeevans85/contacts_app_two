@@ -6,4 +6,5 @@ json.array! @contacts.each do |contact|
   json.zip contact.zip
   json.email contact.email
   json.phone contact.phone
+  json.created_at contact.friendly_updated_at
 end
