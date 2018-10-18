@@ -14,6 +14,7 @@ class Api::ContactsController < ApplicationController
       zip: params["zip"],
       email: params["email"],
       phone: params["phone"],
+      bio: params["bio"],
       )
     @contact.save
     render "show.json.jbuilder"
@@ -34,6 +35,7 @@ class Api::ContactsController < ApplicationController
     @contact.zip = params["zip"] || @contact.zip
     @contact.email = params["email"] || @contact.email
     @contact.phone = params["phone"] || @contact.phone
+    @contact.bio = params["bio"] || @contact.bio
     @contact.save
     render "show.json.jbuilder"
   end

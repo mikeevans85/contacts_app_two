@@ -4,6 +4,6 @@ class Contact < ApplicationRecord
   end
 
   def full_name
-    return "#{name} Jr."
+    return "#{name} #{middle_name} Jr."
   end
 end
