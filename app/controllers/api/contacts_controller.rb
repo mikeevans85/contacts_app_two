@@ -7,6 +7,7 @@ class Api::ContactsController < ApplicationController
   def create
     @contact = Contact.new(
       name: params["name"],
+      middle_name: params["middle_name"],
       street_address: params["street_address"],
       city: params["city"],
       state: params["state"],
@@ -26,6 +27,7 @@ class Api::ContactsController < ApplicationController
   def update
     @contact = Contact.find_by(id: params["id"])
     @contact.name = params["name"] || @contact.name
+    @contact.middle_name = params["middle_name"] || @contact.middle_name
     @contact.street_address = params["street_address"] || @contact.street_address
     @contact.city = params["city"] || @contact.city
     @contact.state = params["state"] || @contact.state
