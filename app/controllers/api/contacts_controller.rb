@@ -1,6 +1,18 @@
 class Api::ContactsController < ApplicationController
   def index
     @contacts = Contact.all
+    name = params["name"]
+    middle_name = params["middle_name"]
+    street_address = params["street_address"]
+    city = params["city"]
+    state = params["state"]
+    zip = params["zip"]
+    email = params["email"]
+    phone = params["phone"]
+    bio = params["bio"]
+
+    @contacts = @contacts.where("name ILIKE ?" OR "middle_name ILIKE ?" OR "street_address ILIKE ?" OR "city ILIKE ?" OR "state ILIKE ?" OR "zip = ?" OR "email ILIKE ?" OR "phone ILIKE ?" OR "bio ILIKE ?", "%#{name}%"
+    end
     render "index.json.jbuilder"
   end
 
