@@ -1,17 +1,10 @@
 class Api::ContactsController < ApplicationController
   def index
     @contacts = Contact.all
-    name = params["name"]
-    middle_name = params["middle_name"]
-    street_address = params["street_address"]
-    city = params["city"]
-    state = params["state"]
-    zip = params["zip"]
-    email = params["email"]
-    phone = params["phone"]
-    bio = params["bio"]
-
-    @contacts = @contacts.where("name ILIKE ?" OR "middle_name ILIKE ?" OR "street_address ILIKE ?" OR "city ILIKE ?" OR "state ILIKE ?" OR "zip = ?" OR "email ILIKE ?" OR "phone ILIKE ?" OR "bio ILIKE ?", "%#{name}%"
+    
+    input = params["input"]
+    if input
+      @contacts = @contacts.where("name ILIKE ? OR middle_name ILIKE ? OR street_address ILIKE ? OR city ILIKE ? OR state ILIKE ? OR email ILIKE ? OR phone ILIKE ? OR bio ILIKE ?", "%#{input}%", "%#{input}%", "%#{input}%", "%#{input}%", "%#{input}%", "%#{input}%", "%#{input}%", "%#{input}%")
     end
     render "index.json.jbuilder"
   end
@@ -29,7 +22,11 @@ class Api::ContactsController < ApplicationController
       bio: params["bio"],
       )
     @contact.save
-    render "show.json.jbuilder"
+    if @contact.save
+      render "show.json.jbuilder"
+    else
+      render json: {errors: @contact.errors.full_messages}, status: 422
+    end
   end
 
   def show
@@ -49,7 +46,11 @@ class Api::ContactsController < ApplicationController
     @contact.phone = params["phone"] || @contact.phone
     @contact.bio = params["bio"] || @contact.bio
     @contact.save
-    render "show.json.jbuilder"
+    if @contact.save
+      render "show.json.jbuilder"
+    else
+      render json: {errors: @contact.errors.full_messages}, status: 422
+    end
   end
 
   def destroy
