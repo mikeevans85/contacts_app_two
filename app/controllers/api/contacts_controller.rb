@@ -1,12 +1,15 @@
 class Api::ContactsController < ApplicationController
   def index
-    @contacts = Contact.all
-    
     input = params["input"]
-    if input
-      @contacts = @contacts.where("name ILIKE ? OR middle_name ILIKE ? OR street_address ILIKE ? OR city ILIKE ? OR state ILIKE ? OR email ILIKE ? OR phone ILIKE ? OR bio ILIKE ?", "%#{input}%", "%#{input}%", "%#{input}%", "%#{input}%", "%#{input}%", "%#{input}%", "%#{input}%", "%#{input}%")
+    if current_user
+      @contacts = current_user.contacts
+      if input
+        @contacts = current_user.contacts.where("name ILIKE ? OR middle_name ILIKE ? OR street_address ILIKE ? OR city ILIKE ? OR state ILIKE ? OR email ILIKE ? OR phone ILIKE ? OR bio ILIKE ?", "%#{input}%", "%#{input}%", "%#{input}%", "%#{input}%", "%#{input}%", "%#{input}%", "%#{input}%", "%#{input}%")
+      end
+      render "index.json.jbuilder"
+    else
+      render json: []
     end
-    render "index.json.jbuilder"
   end
 
   def create
@@ -20,6 +23,7 @@ class Api::ContactsController < ApplicationController
       email: params["email"],
       phone: params["phone"],
       bio: params["bio"],
+      user_id: current_user.id
       )
     @contact.save
     if @contact.save
